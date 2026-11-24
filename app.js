@@ -22,194 +22,6 @@ function showParticipantPanel(show) {
   document.getElementById('voting-panel').hidden = !show;
 }
 
-// ТЕСТОВОЕ ГОЛОСОВАНИЕ — ТОЛЬКО ДЛЯ КИРИЛЛА
-
-function getOrCreateTestPanel() {
-  const votingPanel = document.getElementById('voting-panel');
-  if (!votingPanel) return null;
-
-  let panel = document.getElementById('test-voting-panel');
-
-  if (!panel) {
-    panel = document.createElement('div');
-    panel.id = 'test-voting-panel';
-    panel.className = 'nomination-card';
-    panel.hidden = true;
-
-    const heading = document.createElement('h3');
-    heading.textContent = 'Тестовое голосование';
-
-    const notice = document.createElement('p');
-    notice.textContent =
-      'Это тренировочный режим. Тестовый голос не влияет на настоящие результаты B.L.Y.A.';
-
-    const content = document.createElement('div');
-    content.id = 'test-voting-content';
-
-    panel.appendChild(heading);
-    panel.appendChild(notice);
-    panel.appendChild(content);
-
-    const votingList = document.getElementById('voting-list');
-
-    if (votingList && votingList.parentNode === votingPanel) {
-      votingPanel.insertBefore(panel, votingList);
-    } else {
-      votingPanel.appendChild(panel);
-    }
-  }
-
-  return panel;
-}
-
-async function loadTestVoting() {
-  const panel = getOrCreateTestPanel();
-  const content = document.getElementById('test-voting-content');
-
-  if (!panel || !content) return;
-
-  panel.hidden = true;
-  content.textContent = '';
-
-  // Сервер сам проверяет, что вошёл именно Кирилл.
-  const { data, error } = await blyaSupabase.rpc(
-    'blya_get_test_voting_state'
-  );
-
-  if (error) {
-    // Если доступ не подтверждён, тестовый блок не показываем.
-    console.log('Тестовый режим недоступен:', error.message);
-    panel.hidden = true;
-    return;
-  }
-
-  // Показываем блок только после успешной проверки сервером.
-  panel.hidden = false;
-
-  if (!data || !data.nomination) {
-    content.textContent = 'Тестовая номинация пока не создана.';
-    return;
-  }
-
-  const nomination = data.nomination;
-  const options = Array.isArray(data.options) ? data.options : [];
-  const existingVote = data.vote;
-
-  const title = document.createElement('h4');
-  title.textContent = nomination.title;
-  content.appendChild(title);
-
-  if (nomination.description) {
-    const description = document.createElement('p');
-    description.textContent = nomination.description;
-    content.appendChild(description);
-  }
-
-  if (!options.length) {
-    const empty = document.createElement('p');
-    empty.textContent = 'Варианты ответов пока не добавлены.';
-    content.appendChild(empty);
-    return;
-  }
-
-  if (existingVote) {
-    const result = document.createElement('p');
-    result.textContent =
-      'Твой тестовый голос принят: ' + existingVote.option_label;
-
-    content.appendChild(result);
-
-    const note = document.createElement('p');
-    note.textContent =
-      'Повторное голосование в этой тестовой номинации недоступно.';
-
-    content.appendChild(note);
-    return;
-  }
-
-  const form = document.createElement('form');
-  const radioName = 'blya-test-vote';
-
-  for (const option of options) {
-    const label = document.createElement('label');
-    label.style.display = 'block';
-    label.style.margin = '12px 0';
-
-    const radio = document.createElement('input');
-    radio.type = 'radio';
-    radio.name = radioName;
-    radio.value = option.id;
-    radio.required = true;
-
-    label.appendChild(radio);
-
-    const text = document.createElement('span');
-    text.textContent = ' ' + option.label;
-    label.appendChild(text);
-
-    if (option.description) {
-      const details = document.createElement('small');
-      details.textContent = ' — ' + option.description;
-      label.appendChild(details);
-    }
-
-    form.appendChild(label);
-  }
-
-  const submit = document.createElement('button');
-  submit.type = 'submit';
-  submit.textContent = 'Отправить тестовый голос';
-  form.appendChild(submit);
-
-  form.addEventListener('submit', async event => {
-    event.preventDefault();
-
-    const selected = form.querySelector(
-      'input[name="' + radioName + '"]:checked'
-    );
-
-    if (!selected) return;
-
-    const selectedOption = options.find(
-      option => option.id === selected.value
-    );
-
-    if (!selectedOption) return;
-
-    const confirmed = confirm(
-      'Отправить тестовый голос за «' +
-      selectedOption.label +
-      '»? Повторно проголосовать будет нельзя.'
-    );
-
-    if (!confirmed) return;
-
-    submit.disabled = true;
-    submit.textContent = 'Отправляем тестовый голос...';
-
-    const { error: voteError } = await blyaSupabase.rpc(
-      'blya_cast_test_vote',
-      {
-        p_nomination_id: nomination.id,
-        p_option_id: selected.value
-      }
-    );
-
-    if (voteError) {
-      alert('Не удалось отправить тестовый голос: ' + voteError.message);
-      submit.disabled = false;
-      submit.textContent = 'Отправить тестовый голос';
-      return;
-    }
-
-    alert('Тестовый голос принят! Настоящие результаты не изменились.');
-
-    await loadTestVoting();
-  });
-
-  content.appendChild(form);
-}
-
 // АДМИНИСТРАТОР: ВХОД
 
 const loginForm = document.getElementById('admin-login-form');
@@ -254,7 +66,6 @@ if (loginForm) {
     await loadOptionNominationChoices();
     await loadParticipants();
     await loadAdminResults();
-await loadAdminTestResults();
   });
 }
 
@@ -473,9 +284,6 @@ async function loadParticipantVoting() {
     list.textContent = 'Ошибка загрузки: ' + stateError.message;
     return;
   }
-
-  // Тестовое голосование загружается отдельно.
-  await loadTestVoting();
 
   const votes = Array.isArray(state.votes) ? state.votes : [];
 
@@ -697,9 +505,6 @@ if (participantLogout) {
   participantLogout.addEventListener('click', async () => {
     await blyaSupabase.auth.signOut();
     showParticipantPanel(false);
-
-    const testPanel = document.getElementById('test-voting-panel');
-    if (testPanel) testPanel.hidden = true;
 
     setText('participant-login-status', 'Ты вышел из аккаунта.');
   });
