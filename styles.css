@@ -109,7 +109,20 @@ h1 {
   position: relative;
   margin: 18px 0 0;
 
-  color: #DCE8F5;
+  color: transparent;
+background: linear-gradient(
+  110deg,
+  #7895C5 0%,
+  #FFFFFF 20%,
+  #A9CFFF 35%,
+  #FFFFFF 48%,
+  #5279B8 60%,
+  #FFFFFF 75%,
+  #7895C5 100%
+);
+background-size: 250% 100%;
+-webkit-background-clip: text;
+background-clip: text;
   font-size: clamp(58px, 14vw, 112px);
   letter-spacing: .08em;
 
@@ -120,7 +133,8 @@ h1 {
     0 0 75px #193F8F,
     0 0 110px #193F8F88;
 
-  animation: titleGlow 4s ease-in-out infinite alternate;
+  animation: titleGlow 2.5s ease-in-out infinite alternate,
+           titlePulse 3s ease-in-out infinite;
 }
 
 /* Подзаголовок */
@@ -283,17 +297,13 @@ button {
 }
 
 button:hover {
-  background:
-    linear-gradient(135deg, #2454AC, #438BFF);
-
-  border-color: #B9D9FF;
-
+  background: linear-gradient(135deg, #438BFF, #75A8FF);
+  border-color: #FFFFFF;
   box-shadow:
-    0 7px 25px #438BFF66,
-    0 0 25px #75A8FF55,
-    inset 0 1px 0 #FFFFFF77;
-
-  transform: translateY(-2px);
+    0 0 12px #75A8FF,
+    0 0 30px #438BFF,
+    0 0 55px #438BFF88;
+  transform: translateY(-4px) scale(1.04);
 }
 
 button:active {
@@ -1380,3 +1390,195 @@ async function loadAdminResults() {
 
 restoreParticipantSession();
 
+
+/* Дополнительные анимации B.L.Y.A. */
+
+.nomination-card {
+  animation: cardAppear .65s ease both;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.nomination-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px #438BFF25;
+}
+
+.nomination-card:nth-child(2) {
+  animation-delay: .08s;
+}
+
+.nomination-card:nth-child(3) {
+  animation-delay: .16s;
+}
+
+.nomination-card:nth-child(4) {
+  animation-delay: .24s;
+}
+
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -80%;
+  width: 45%;
+  height: 200%;
+  background: #FFFFFF35;
+  transform: rotate(25deg);
+  transition: left .55s ease;
+  pointer-events: none;
+}
+
+button:hover::after {
+  left: 140%;
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Анимация изображений */
+
+.nomination-card img {
+  border-radius: 12px;
+  transition: transform .35s ease, box-shadow .35s ease;
+  animation: imageAppear .8s ease both;
+}
+
+.nomination-card img:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 24px #438BFF55;
+}
+
+/* Плавное выделение полей */
+
+input,
+select,
+textarea {
+  transition:
+    border-color .25s ease,
+    box-shadow .25s ease,
+    transform .25s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  transform: translateY(-1px);
+}
+
+@keyframes imageAppear {
+  from {
+    opacity: 0;
+    transform: scale(.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* Дополнительные анимации B.L.Y.A. */
+
+.nomination-card {
+  animation: cardAppear .65s ease both;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.nomination-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px #438BFF25;
+}
+
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -80%;
+  width: 45%;
+  height: 200%;
+  background: #FFFFFF35;
+  transform: rotate(25deg);
+  transition: left .55s ease;
+  pointer-events: none;
+}
+
+button:hover::after {
+  left: 140%;
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.nomination-card img {
+  border-radius: 12px;
+  transition: transform .35s ease, box-shadow .35s ease;
+  animation: imageAppear .8s ease both;
+}
+
+.nomination-card img:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 24px #438BFF55;
+}
+
+input,
+select,
+textarea {
+  transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  transform: translateY(-1px);
+}
+
+@keyframes imageAppear {
+  from {
+    opacity: 0;
+    transform: scale(.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes bladeShine {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: -150% 50%;
+  }
+}
+
+h1 {
+  animation:
+    bladeShine 3s linear infinite,
+    titlePulse 3s ease-in-out infinite;
+}
