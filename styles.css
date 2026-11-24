@@ -1837,3 +1837,88 @@ h1 {
 #admin-access-section.admin-visible {
   display: block;
 }
+[hidden] {
+  display: none !important;
+}
+/* Общее увеличение шрифтов на сайте */
+html {
+  font-size: 18px;
+}
+
+body {
+  font-size: 1rem;
+}
+
+button,
+input,
+textarea,
+select {
+  font-size: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+p,
+label,
+li {
+  font-size: 1.1rem;
+}
+/* Размеры надписей */
+html {
+  font-size: 16px;
+}
+
+body {
+  font-size: 1rem;
+}
+
+p,
+label,
+li,
+button,
+input,
+textarea,
+select {
+  font-size: 1rem;
+}
+
+/* Переливающиеся надписи */
+h1,
+h2,
+h3,
+.subtitle,
+p,
+label {
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #75a8ff,
+    #dce8f5,
+    #438bff,
+    #ffffff
+  );
+  background-size: 300% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: textShine 5s linear infinite;
+}
+
+@keyframes textShine {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 300% center;
+  }
+}

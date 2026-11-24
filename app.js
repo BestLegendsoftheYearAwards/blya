@@ -17,9 +17,225 @@ function setText(id, value) {
   if (element) element.textContent = value;
 }
 
+let currentSitePhase = 'loading';
+
 function showParticipantPanel(show) {
-  document.getElementById('participant-login-panel').hidden = show;
-  document.getElementById('voting-panel').hidden = !show;
+  const loginPanel = document.getElementById('participant-login-panel');
+  const votingPanel = document.getElementById('voting-panel');
+
+  if (!loginPanel || !votingPanel) return;
+
+  if (currentSitePhase !== 'voting') {
+    loginPanel.hidden = true;
+    votingPanel.hidden = true;
+    return;
+  }
+
+  loginPanel.hidden = show;
+  votingPanel.hidden = !show;
+}
+
+// ПУБЛИЧНОЕ РАСПИСАНИЕ И ЭТАПЫ B.L.Y.A.
+
+let siteServerTime = null;
+let siteClientTime = null;
+
+async function loadPublicSiteState() {
+  const { data, error } = await blyaSupabase.rpc(
+    'blya_get_public_site_state'
+  );
+
+  if (error) {
+    console.error('Ошибка загрузки расписания:', error.message);
+    return;
+  }
+
+  const settings = Array.isArray(data) ? data[0] : data;
+
+  if (!settings) {
+    console.error('Настройки расписания не найдены.');
+    return;
+  }
+
+  siteServerTime = new Date(settings.server_now).getTime();
+  siteClientTime = Date.now();
+
+  updateSitePhase(settings);
+}
+
+function updateSitePhase(settings) {
+  if (!siteServerTime || !siteClientTime) return;
+
+  const now = siteServerTime + (Date.now() - siteClientTime);
+
+  const nominationsOpen = new Date(settings.nominations_open_at).getTime();
+  const nominationsClose = new Date(settings.nominations_close_at).getTime();
+  const votingOpen = new Date(settings.voting_open_at).getTime();
+  const votingClose = new Date(settings.voting_close_at).getTime();
+  const resultsPublish = new Date(settings.results_publish_at).getTime();
+
+  let phase;
+
+  if (now < nominationsOpen) {
+    phase = 'before';
+  } else if (now <= nominationsClose) {
+    phase = 'nominations';
+  } else if (now < votingOpen) {
+    phase = 'between';
+  } else if (now <= votingClose) {
+    phase = 'voting';
+  } else if (now < resultsPublish) {
+    phase = 'waiting';
+  } else {
+    phase = 'results';
+  }
+
+  if (phase === currentSitePhase) return;
+
+  currentSitePhase = phase;
+
+  const proposalPanel = document.getElementById('proposal-panel');
+  const loginPanel = document.getElementById('participant-login-panel');
+  const votingPanel = document.getElementById('voting-panel');
+  const noticePanel = document.getElementById('phase-notice-panel');
+  const noticeText = document.getElementById('phase-notice-text');
+  const resultsPanel = document.getElementById('public-results-panel');
+
+  if (proposalPanel) proposalPanel.hidden = true;
+  if (loginPanel) loginPanel.hidden = true;
+  if (votingPanel) votingPanel.hidden = true;
+  if (noticePanel) noticePanel.hidden = true;
+  if (resultsPanel) resultsPanel.hidden = true;
+
+  if (phase === 'before') {
+    if (noticePanel) noticePanel.hidden = false;
+    if (noticeText) {
+      noticeText.textContent =
+  'Торжественное открытие "B.L.Y.A. 2026" состоится 1 декабря';
+    }
+  }
+
+  if (phase === 'nominations') {
+    if (proposalPanel) proposalPanel.hidden = false;
+  }
+
+  if (phase === 'voting') {
+    showParticipantPanel(false);
+  }
+
+  if (phase === 'waiting') {
+    if (noticePanel) noticePanel.hidden = false;
+    if (noticeText) {
+      noticeText.textContent =
+        'Голосование "B.L.Y.A. 2026" окончено! Спасибо Вам за Ваши голоса!'
+    }
+  }
+
+  if (phase === 'results') {
+    if (resultsPanel) resultsPanel.hidden = false;
+    loadPublicResults();
+  }
+}
+
+// ПУБЛИЧНЫЕ РЕЗУЛЬТАТЫ
+
+async function loadPublicResults() {
+  const list = document.getElementById('public-results-list');
+  if (!list) return;
+
+  list.textContent = 'Загружаем результаты...';
+
+  const { data, error } = await blyaSupabase.rpc(
+    'blya_get_public_results'
+  );
+
+  if (error) {
+    list.textContent = 'Не удалось загрузить результаты.';
+    console.error('Ошибка публичных результатов:', error.message);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.textContent = 'Результаты пока не опубликованы.';
+    return;
+  }
+
+  list.innerHTML = '';
+
+  const groups = new Map();
+
+  for (const item of data) {
+    if (!groups.has(item.nomination_id)) {
+      groups.set(item.nomination_id, {
+        title: item.nomination_title,
+        options: [],
+        total: Number(item.total_votes || 0)
+      });
+    }
+
+    if (item.option_id) {
+      groups.get(item.nomination_id).options.push({
+        label: item.option_label,
+        votes: Number(item.vote_count || 0)
+      });
+    }
+  }
+
+  for (const nomination of groups.values()) {
+    const section = document.createElement('section');
+    section.className = 'nomination-card';
+
+    const heading = document.createElement('h3');
+    heading.textContent = nomination.title;
+    section.appendChild(heading);
+
+    if (nomination.options.length === 0) {
+      const empty = document.createElement('p');
+      empty.textContent = 'Варианты ответов отсутствуют.';
+      section.appendChild(empty);
+    } else {
+      const highest = Math.max(
+        ...nomination.options.map(option => option.votes)
+      );
+
+      for (const option of nomination.options) {
+        const line = document.createElement('p');
+
+        line.textContent =
+          option.label + ': ' + option.votes +
+          (option.votes === 1 ? ' голос' :
+            option.votes >= 2 && option.votes <= 4 ? ' голоса' : ' голосов');
+
+        section.appendChild(line);
+
+        if (highest > 0 && option.votes === highest) {
+          const winner = document.createElement('strong');
+          winner.textContent = 'Победитель';
+          section.appendChild(winner);
+        }
+      }
+    }
+
+    const total = document.createElement('p');
+    total.textContent = 'Всего голосов: ' + nomination.total;
+    section.appendChild(total);
+
+    list.appendChild(section);
+  }
+}
+
+// ЗАПУСК РАСПИСАНИЯ
+
+async function initializePublicSite() {
+  await loadPublicSiteState();
+
+  if (currentSitePhase === 'voting') {
+    await restoreParticipantSession();
+  }
+
+  setInterval(async () => {
+    await loadPublicSiteState();
+  }, 60000);
 }
 
 // АДМИНИСТРАТОР: ВХОД
@@ -66,6 +282,7 @@ if (loginForm) {
     await loadOptionNominationChoices();
     await loadParticipants();
     await loadAdminResults();
+await loadAdminTestResults();
   });
 }
 
@@ -1113,4 +1330,4 @@ async function loadAdminTestResults() {
 }
 // ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
 
-restoreParticipantSession();
+initializePublicSite();
