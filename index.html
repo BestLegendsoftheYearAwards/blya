@@ -1,0 +1,171 @@
+
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>B.L.Y.A. — Best Legends of the Year Awards</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <div class="eyebrow">ЦЕРЕМОНИЯ НАГРАЖДЕНИЯ 2026 ГОДА</div>
+    <h1>B.L.Y.A.</h1>
+    <p class="subtitle">Best Legends of the Year Awards</p>
+
+    <section class="panel">
+      <h2>Предложить номинацию</h2>
+      <p>Есть идея для дополнительной номинации? Предложи её организаторам!</p>
+      <form id="proposal-form">
+        <input id="proposal-title" type="text"
+          placeholder="Название номинации"
+          minlength="3" maxlength="120" required>
+        <button type="submit">Отправить предложение</button>
+      </form>
+      <p id="proposal-status" class="note"></p>
+    </section>
+
+    <section class="panel" id="participant-login-panel">
+      <h2>Вход участника</h2>
+      <p>Введи общий PIN и свой индивидуальный код, который выдал организатор.</p>
+      <form id="participant-login-form">
+        <input id="participant-login-pin"
+          type="password"
+          inputmode="numeric"
+          pattern="[0-9]{4}"
+          maxlength="4"
+          placeholder="Общий PIN из 4 цифр"
+          autocomplete="off"
+          required>
+        <input id="participant-login-code"
+          type="password"
+          placeholder="Индивидуальный код"
+          minlength="8"
+          autocomplete="off"
+          required>
+        <button type="submit">Войти в голосование</button>
+      </form>
+      <p id="participant-login-status" class="note"></p>
+    </section>
+
+    <section class="panel" id="voting-panel" hidden>
+      <h2>Голосование B.L.Y.A.</h2>
+      <p id="participant-welcome"></p>
+      <p id="voting-period-status" class="note"></p>
+      <div id="voting-list">Загружаем номинации...</div>
+
+      <section class="panel" id="test-voting-panel" hidden>
+        <h2>Тестовое голосование</h2>
+        <p>Учебная номинация. Тестовые голоса не влияют на настоящие результаты.</p>
+        <div id="test-voting-content">Загружаем тестовую номинацию...</div>
+      </section>
+
+      <button id="participant-logout" type="button">Выйти из аккаунта</button>
+    </section>
+
+    <section class="panel">
+      <h2>Вход администратора</h2>
+      <form id="admin-login-form">
+        <p>
+          <input id="admin-email" type="email"
+            placeholder="Электронная почта" required>
+        </p>
+        <p>
+          <input id="admin-password" type="password"
+            placeholder="Пароль" required>
+        </p>
+        <button type="submit">Войти</button>
+      </form>
+      <p id="login-status" class="note"></p>
+
+      <div id="admin-panel" hidden>
+        <h2>Панель администратора</h2>
+
+        <h3>Общий PIN участников</h3>
+        <p>Задай общий PIN из 4 цифр. Он будет нужен всем участникам вместе с их индивидуальными кодами.</p>
+        <form id="participant-pin-form">
+          <p>
+            <input id="participant-pin-admin"
+              type="password"
+              inputmode="numeric"
+              pattern="[0-9]{4}"
+              maxlength="4"
+              placeholder="Новый общий PIN из 4 цифр"
+              autocomplete="new-password"
+              required>
+          </p>
+          <button type="submit">Сохранить общий PIN</button>
+        </form>
+        <p id="participant-pin-status" class="note"></p>
+
+        <h3>Участники</h3>
+        <p>Можно добавить не более 10 участников.</p>
+        <form id="participant-form">
+          <p>
+            <input id="participant-name" type="text"
+              placeholder="Имя участника"
+              maxlength="100" required>
+          </p>
+          <p>
+            <input id="participant-code" type="password"
+              placeholder="Индивидуальный код (минимум 8 символов)"
+              minlength="8" maxlength="100" required>
+          </p>
+          <button type="submit">Добавить участника</button>
+        </form>
+        <p id="participant-status" class="note"></p>
+
+        <h3>Список участников</h3>
+        <div id="participants-list">Загрузка участников...</div>
+
+        <h3>Номинации</h3>
+        <div id="nominations-list">Загрузка номинаций...</div>
+
+        <h3>Предложения участников</h3>
+        <div id="proposals-list">Загрузка предложений...</div>
+
+        <h3>Добавить номинацию</h3>
+        <form id="nomination-form">
+          <input id="nomination-title" type="text"
+            placeholder="Название номинации" required>
+          <button type="submit">Добавить номинацию</button>
+        </form>
+        <p id="nomination-status" class="note"></p>
+
+        <h3>Варианты ответов</h3>
+        <p>Добавляй кандидатов, участников или события для каждой номинации.</p>
+        <form id="option-form">
+          <p>
+            <select id="option-nomination" required>
+              <option value="">Выбери номинацию</option>
+            </select>
+          </p>
+          <p>
+            <input id="option-label" type="text"
+              placeholder="Имя кандидата или название события"
+              maxlength="120" required>
+          </p>
+          <p>
+            <textarea id="option-description"
+              placeholder="Описание (необязательно)" rows="3"></textarea>
+          </p>
+          <button type="submit">Добавить вариант</button>
+        </form>
+        <p id="option-status" class="note"></p>
+
+        <h3>Добавленные варианты</h3>
+        <div id="options-list">Выбери номинацию, чтобы посмотреть варианты.</div>
+
+        <h3>Результаты голосования</h3>
+        <p>Результаты доступны администратору.</p>
+        <div id="admin-results">Загрузка результатов...</div>
+      </div>
+    </section>
+
+    <footer>© B.L.Y.A. 2026</footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
