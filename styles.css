@@ -140,13 +140,17 @@ background-clip: text;
 /* Подзаголовок */
 
 .subtitle {
-  margin: 8px 0 38px;
-  color: #DCE8F5;
-  letter-spacing: .12em;
-  font: 12px Arial, sans-serif;
-  line-height: 1.8;
+  font-size: clamp(20px, 3.5vw, 30px);
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-align: center;
+  line-height: 1.4;
 
-  text-shadow: 0 0 12px #75A8FF66;
+  color: #DCE8F5;
+  text-shadow:
+    0 0 5px rgba(185, 217, 255, 0.9),
+    0 0 12px rgba(67, 139, 255, 0.8),
+    0 0 24px rgba(67, 139, 255, 0.5);
 }
 
 /* Светлые внутренние панели */
