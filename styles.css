@@ -1582,3 +1582,247 @@ h1 {
     bladeShine 3s linear infinite,
     titlePulse 3s ease-in-out infinite;
 }
+
+/* =====================================
+   ПРАЗДНИЧНЫЕ ЛЕНТОЧКИ B.L.Y.A.
+===================================== */
+
+.shell {
+  position: relative;
+  z-index: 1;
+}
+
+.celebration-ribbons {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.celebration-ribbons span {
+  position: absolute;
+  top: -140px;
+  width: 9px;
+  height: 100px;
+  border-radius: 8px;
+  opacity: .65;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    #FFFFFF,
+    #75A8FF,
+    #B9D9FF,
+    transparent
+  );
+  box-shadow: 0 0 12px #75A8FF88;
+  animation: ribbonFall linear infinite;
+}
+
+.celebration-ribbons span:nth-child(1) { left: 5%; animation-duration: 13s; }
+.celebration-ribbons span:nth-child(2) { left: 14%; animation-duration: 17s; animation-delay: -5s; }
+.celebration-ribbons span:nth-child(3) { left: 23%; animation-duration: 15s; animation-delay: -9s; }
+.celebration-ribbons span:nth-child(4) { left: 35%; animation-duration: 19s; animation-delay: -3s; }
+.celebration-ribbons span:nth-child(5) { left: 45%; animation-duration: 14s; animation-delay: -11s; }
+.celebration-ribbons span:nth-child(6) { left: 56%; animation-duration: 18s; animation-delay: -7s; }
+.celebration-ribbons span:nth-child(7) { left: 67%; animation-duration: 16s; animation-delay: -2s; }
+.celebration-ribbons span:nth-child(8) { left: 77%; animation-duration: 20s; animation-delay: -12s; }
+.celebration-ribbons span:nth-child(9) { left: 88%; animation-duration: 15s; animation-delay: -6s; }
+.celebration-ribbons span:nth-child(10) { left: 96%; animation-duration: 18s; animation-delay: -10s; }
+.celebration-ribbons span:nth-child(11) { left: 31%; animation-duration: 21s; animation-delay: -14s; }
+.celebration-ribbons span:nth-child(12) { left: 72%; animation-duration: 17s; animation-delay: -8s; }
+
+@keyframes ribbonFall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(45px, 55vh, 0) rotate(180deg);
+  }
+  100% {
+    transform: translate3d(-25px, 115vh, 0) rotate(360deg);
+  }
+}
+
+/* =====================================
+   ВРАЩАЮЩИЕСЯ КУБКИ
+===================================== */
+
+.trophy-stage {
+  position: relative;
+  height: 145px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  perspective: 700px;
+  margin-bottom: 4px;
+}
+
+.trophy {
+  width: 76px;
+  height: 100px;
+  overflow: visible;
+  filter: drop-shadow(0 0 12px #438BFF99);
+  animation: trophyRotate 7s ease-in-out infinite;
+}
+
+.trophy-main {
+  width: 105px;
+  height: 125px;
+  animation-duration: 6s;
+}
+
+.trophy-left {
+  width: 65px;
+  height: 85px;
+  opacity: .8;
+  animation-delay: -2s;
+}
+
+.trophy-right {
+  width: 65px;
+  height: 85px;
+  opacity: .8;
+  animation-delay: -4s;
+}
+
+.cup-body {
+  fill: url(#trophyGradient);
+  fill: #B9D9FF;
+  stroke: #FFFFFF;
+  stroke-width: 2;
+}
+
+.cup-handles {
+  fill: none;
+  stroke: #75A8FF;
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.cup-stem {
+  fill: #75A8FF;
+  stroke: #DCE8F5;
+  stroke-width: 1.5;
+}
+
+.cup-base {
+  fill: #193F8F;
+  stroke: #B9D9FF;
+  stroke-width: 1.5;
+}
+
+.cup-shine {
+  fill: #FFFFFF;
+  opacity: .8;
+}
+
+@keyframes trophyRotate {
+  0%, 100% {
+    transform: rotateY(-25deg) translateY(0);
+  }
+  25% {
+    transform: rotateY(90deg) translateY(-8px);
+  }
+  50% {
+    transform: rotateY(180deg) translateY(0);
+  }
+  75% {
+    transform: rotateY(270deg) translateY(-8px);
+  }
+}
+
+@media (max-width: 600px) {
+  .trophy-stage {
+    height: 115px;
+    gap: 12px;
+  }
+
+  .trophy-main {
+    width: 85px;
+    height: 105px;
+  }
+
+  .trophy-left,
+  .trophy-right {
+    width: 52px;
+    height: 70px;
+  }
+}
+/* ===== B.L.Y.A. — праздничное конфетти ===== */
+
+.celebration-confetti {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.celebration-confetti span {
+  position: absolute;
+  top: -30px;
+  left: var(--left);
+  width: var(--size);
+  height: calc(var(--size) * 1.8);
+  background: var(--color);
+  border-radius: 2px;
+  opacity: 0;
+  animation: confettiFall var(--duration) linear infinite;
+  animation-delay: var(--delay);
+  transform: rotate(var(--rotation));
+  box-shadow: 0 0 7px var(--color);
+}
+
+.celebration-confetti span:nth-child(6n + 1) {
+  border-radius: 50%;
+}
+
+.celebration-confetti span:nth-child(6n + 2) {
+  width: calc(var(--size) * 1.8);
+  height: calc(var(--size) * 0.7);
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translate3d(0, -5vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate3d(35px, 50vh, 0) rotate(400deg);
+    opacity: 0.75;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(-25px, 110vh, 0) rotate(800deg);
+    opacity: 0;
+  }
+}
+
+.celebration-confetti span:nth-child(1)  { --left: 3%;  --size: 7px; --color: #B9D9FF; --duration: 13s; --delay: -4s; --rotation: 20deg; }
+.celebration-confetti span:nth-child(2)  { --left: 9%;  --size: 5px; --color: #C8D0DC; --duration: 16s; --delay: -11s; --rotation: 70deg; }
+.celebration-confetti span:nth-child(3)  { --left: 16%; --size: 8px; --color: #438BFF; --duration: 12s; --delay: -7s; --rotation: 35deg; }
+.celebration-confetti span:nth-child(4)  { --left: 23%; --size: 6px; --color: #FFFFFF; --duration: 15s; --delay: -2s; --rotation: 90deg; }
+.celebration-confetti span:nth-child(5)  { --left: 30%; --size: 9px; --color: #75A8FF; --duration: 14s; --delay: -9s; --rotation: 10deg; }
+.celebration-confetti span:nth-child(6)  { --left: 37%; --size: 5px; --color: #DCE8F5; --duration: 17s; --delay: -13s; --rotation: 50deg; }
+.celebration-confetti span:nth-child(7)  { --left: 44%; --size: 7px; --color: #193F8F; --duration: 13s; --delay: -5s; --rotation: 80deg; }
+.celebration-confetti span:nth-child(8)  { --left: 51%; --size: 6px; --color: #B9D9FF; --duration: 16s; --delay: -12s; --rotation: 25deg; }
+.celebration-confetti span:nth-child(9)  { --left: 58%; --size: 8px; --color: #C8D0DC; --duration: 12s; --delay: -3s; --rotation: 65deg; }
+.celebration-confetti span:nth-child(10) { --left: 65%; --size: 5px; --color: #438BFF; --duration: 15s; --delay: -8s; --rotation: 15deg; }
+.celebration-confetti span:nth-child(11) { --left: 72%; --size: 9px; --color: #FFFFFF; --duration: 14s; --delay: -14s; --rotation: 45deg; }
+.celebration-confetti span:nth-child(12) { --left: 79%; --size: 6px; --color: #75A8FF; --duration: 17s; --delay: -6s; --rotation: 85deg; }
+.celebration-confetti span:nth-child(13) { --left: 86%; --size: 7px; --color: #DCE8F5; --duration: 13s; --delay: -10s; --rotation: 30deg; }
+.celebration-confetti span:nth-child(14) { --left: 93%; --size: 5px; --color: #B9D9FF; --duration: 16s; --delay: -1s; --rotation: 75deg; }
+
+@media (prefers-reduced-motion: reduce) {
+  .celebration-confetti span {
+    animation: none;
+    display: none;
+  }
+}
