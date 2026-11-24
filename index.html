@@ -98,7 +98,7 @@
       <button id="participant-logout" type="button">Выйти из аккаунта</button>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="admin-access-section">
       <h2>Вход администратора</h2>
       <form id="admin-login-form">
         <p>
@@ -202,5 +202,20 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
+<script>
+  function checkAdminAccess() {
+    const section = document.getElementById('admin-access-section');
+
+    if (section) {
+      section.classList.toggle(
+        'admin-visible',
+        window.location.hash === '#admin'
+      );
+    }
+  }
+
+  checkAdminAccess();
+  window.addEventListener('hashchange', checkAdminAccess);
+</script>
 </body>
 </html>

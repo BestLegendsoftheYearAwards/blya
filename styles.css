@@ -1830,3 +1830,10 @@ h1 {
     display: none;
   }
 }
+#admin-access-section {
+  display: none;
+}
+
+#admin-access-section.admin-visible {
+  display: block;
+}
