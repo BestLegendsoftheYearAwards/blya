@@ -1331,3 +1331,34 @@ async function loadAdminTestResults() {
 // ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
 
 initializePublicSite();
+// Автоматическая смена фотографий участников
+(function () {
+  const stack = document.querySelector('.participants-stack');
+
+  if (!stack) return;
+
+  const cards = Array.from(stack.querySelectorAll('.participant-card'));
+
+  if (cards.length < 3) return;
+
+  let current = 0;
+
+  function updateCarousel() {
+    cards.forEach(card => {
+      card.classList.remove('is-left', 'is-center', 'is-right');
+    });
+
+    cards[(current + cards.length - 1) % cards.length]
+      .classList.add('is-left');
+
+    cards[current].classList.add('is-center');
+
+    cards[(current + 1) % cards.length]
+      .classList.add('is-right');
+
+    current = (current + 1) % cards.length;
+  }
+
+  updateCarousel();
+  setInterval(updateCarousel, 4500);
+})();
