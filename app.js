@@ -1362,3 +1362,79 @@ initializePublicSite();
   updateCarousel();
   setInterval(updateCarousel, 2800);
 })();
+// ТАЙМЕР ДО СЛЕДУЮЩЕГО ЭТАПА B.L.Y.A.
+(function () {
+  const panel = document.getElementById('countdown-panel');
+
+  if (!panel) return;
+
+  const daysElement = document.getElementById('countdown-days');
+  const hoursElement = document.getElementById('countdown-hours');
+  const minutesElement = document.getElementById('countdown-minutes');
+  const secondsElement = document.getElementById('countdown-seconds');
+  const stageElement = document.getElementById('countdown-stage');
+  const dateElement = document.getElementById('countdown-date');
+
+  const stages = [
+    {
+      date: new Date('2026-12-01T00:00:00+05:00'),
+      title: 'До начала приёма номинаций',
+      dateText: '1 декабря 2026'
+    },
+    {
+      date: new Date('2026-12-11T00:00:00+05:00'),
+      title: 'До начала голосования',
+      dateText: '11 декабря 2026'
+    },
+    {
+      date: new Date('2026-12-21T00:00:00+05:00'),
+      title: 'До завершения голосования',
+      dateText: '21 декабря 2026'
+    },
+    {
+      date: new Date('2027-01-01T00:00:00+05:00'),
+      title: 'До публикации результатов',
+      dateText: '1 января 2027'
+    }
+  ];
+
+  function updateCountdown() {
+    if (siteServerTime === null || siteClientTime === null) {
+      stageElement.textContent = 'Загружаем время...';
+      return;
+    }
+
+    const now = siteServerTime + (Date.now() - siteClientTime);
+
+    const nextStage = stages.find(stage => stage.date.getTime() > now);
+
+    if (!nextStage) {
+      stageElement.textContent = 'Все этапы B.L.Y.A. завершены!';
+      dateElement.textContent = 'С Новым 2027 годом!';
+      daysElement.textContent = '00';
+      hoursElement.textContent = '00';
+      minutesElement.textContent = '00';
+      secondsElement.textContent = '00';
+      return;
+    }
+
+    const difference = nextStage.date.getTime() - now;
+
+    const days = Math.floor(difference / 86400000);
+    const hours = Math.floor((difference % 86400000) / 3600000);
+    const minutes = Math.floor((difference % 3600000) / 60000);
+    const seconds = Math.floor((difference % 60000) / 1000);
+
+    daysElement.textContent = String(days).padStart(2, '0');
+    hoursElement.textContent = String(hours).padStart(2, '0');
+    minutesElement.textContent = String(minutes).padStart(2, '0');
+    secondsElement.textContent = String(seconds).padStart(2, '0');
+
+    stageElement.textContent = nextStage.title;
+    dateElement.textContent = nextStage.dateText;
+console.log('Таймер обновлён:', days, hours, minutes, seconds);
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+})();

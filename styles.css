@@ -1281,3 +1281,81 @@ label {
   visibility: visible;
   pointer-events: auto;
 }
+/* ТАЙМЕР B.L.Y.A. */
+
+.countdown-panel {
+  max-width: 650px;
+  margin: 30px auto;
+  padding: 24px 20px;
+  text-align: center;
+  color: #e8efff;
+  background: linear-gradient(145deg, #101c35, #243b60);
+  border: 1px solid rgba(210, 225, 255, 0.55);
+  border-radius: 20px;
+  box-shadow:
+    0 0 25px rgba(120, 160, 220, 0.2),
+    inset 0 0 20px rgba(210, 225, 255, 0.06);
+}
+
+.countdown-panel h2 {
+  margin: 0 0 20px;
+  color: #dce7fa;
+  font-size: 1.15rem;
+  letter-spacing: 3px;
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.countdown-unit {
+  padding: 15px 5px;
+  background: rgba(5, 14, 30, 0.55);
+  border: 1px solid rgba(210, 225, 255, 0.3);
+  border-radius: 14px;
+}
+
+.countdown-unit span {
+  display: block;
+  color: #f0f5ff;
+  font-size: clamp(1.6rem, 5vw, 2.5rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 12px rgba(190, 215, 255, 0.35);
+}
+
+.countdown-unit small {
+  display: block;
+  margin-top: 5px;
+  color: #aebfdd;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+}
+
+#countdown-stage {
+  margin: 20px 0 5px;
+  color: #f0f4ff;
+  font-weight: 600;
+}
+
+#countdown-date {
+  margin: 0;
+  color: #aebfdd;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  .countdown-panel {
+    padding: 18px 10px;
+  }
+
+  .countdown-grid {
+    gap: 6px;
+  }
+
+  .countdown-unit {
+    padding: 12px 2px;
+  }
+}
