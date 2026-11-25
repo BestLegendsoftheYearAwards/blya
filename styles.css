@@ -1227,3 +1227,57 @@ label {
     margin: 0 !important;
   }
 }
+/* ОКОНЧАТЕЛЬНОЕ РАСПОЛОЖЕНИЕ КАРУСЕЛИ */
+
+@media (min-width: 1250px) {
+  .participants-carousel {
+    position: fixed !important;
+    left: calc(50% - 380px - 245px) !important;
+    right: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 215px !important;
+    margin: 0 !important;
+    z-index: 20 !important;
+  }
+}
+
+@media (max-width: 1249px) {
+  .participants-carousel {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 210px !important;
+    margin: 20px auto !important;
+  }
+}
+/* Скрываем все карточки, кроме трёх активных */
+.participant-card {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Предыдущая карточка слева */
+.participant-card.is-left {
+  opacity: 0.75;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Текущая карточка по центру */
+.participant-card.is-center {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 3;
+}
+
+/* Следующая карточка справа */
+.participant-card.is-right {
+  opacity: 0.75;
+  visibility: visible;
+  pointer-events: auto;
+}
