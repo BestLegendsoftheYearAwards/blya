@@ -1360,5 +1360,5 @@ initializePublicSite();
   }
 
   updateCarousel();
-  setInterval(updateCarousel, 4500);
+  setInterval(updateCarousel, 2800);
 })();
