@@ -1922,3 +1922,47 @@ label {
     background-position: 300% center;
   }
 }
+/* Прозрачный фон информационных объявлений */
+#phase-notice-panel,
+#public-results-panel {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: #FFFFFF;
+}
+
+/* Убираем декоративную белую полоску */
+#phase-notice-panel::before,
+#public-results-panel::before {
+  display: none;
+}
+#phase-notice-panel {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+/* Постоянное расписание премии */
+#event-schedule {
+  margin: 24px auto;
+  padding: 18px 24px;
+  max-width: 850px;
+  background: transparent;
+  border: 1px solid rgba(185, 217, 255, 0.35);
+  border-radius: 16px;
+  color: #FFFFFF;
+  text-align: center;
+  box-shadow: 0 0 18px rgba(67, 139, 255, 0.12);
+}
+
+#event-schedule h2 {
+  margin: 0 0 14px;
+  color: #B9D9FF;
+  font-size: 1.5rem;
+}
+
+#event-schedule p {
+  margin: 9px 0;
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
