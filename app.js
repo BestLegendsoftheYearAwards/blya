@@ -1432,7 +1432,6 @@ initializePublicSite();
 
     stageElement.textContent = nextStage.title;
     dateElement.textContent = nextStage.dateText;
-console.log('Таймер обновлён:', days, hours, minutes, seconds);
   }
 
   updateCountdown();
