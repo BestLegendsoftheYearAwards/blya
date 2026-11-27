@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Победители 2024 года — B.L.Y.A.</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<button class="menu-toggle" id="menu-toggle" aria-label="Открыть меню">
+  ☰
+</button>
+
+<nav class="site-menu" id="site-menu" hidden>
+  <a href="index.html">Главная</a>
+  <a href="winners-2024.html">Победители 2024 года</a>
+  <a href="winners-2025.html">Победители 2025 года</a>
+</nav>
+
+<main class="shell">
+  <h1>Победители B.L.Y.A. 2024</h1>
+  <p class="subtitle">Легенды, которые вошли в историю!</p>
+
+  <div class="winners-grid">
+
+    <article class="winner-card">
+      <img src="photos/lena.jpg" alt="Елена Кузнецова">
+      <h2>Елена Кузнецова</h2>
+      <p>Лучший игрок в Квиз</p>
+    </article>
+
+    <article class="winner-card">
+      <img src="photos/pasha.jpg" alt="Павел Бояркин">
+      <h2>Павел Бояркин</h2>
+      <p>Не повезло, не фортануло…</p>
+    </article>
+
+    <article class="winner-card">
+      <img src="photos/kirill.jpg" alt="Кирилл Лазаренко">
+      <h2>Кирилл Лазаренко</h2>
+      <p>Член конфы 2024 года</p>
+    </article>
+
+  </div>
+
+  <a class="back-home" href="index.html">← Вернуться на главную</a>
+</main>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const siteMenu = document.getElementById('site-menu');
+
+  menuToggle.addEventListener('click', () => {
+    siteMenu.hidden = !siteMenu.hidden;
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!menuToggle.contains(event.target) &&
+        !siteMenu.contains(event.target)) {
+      siteMenu.hidden = true;
+    }
+  });
+</script>
+</body>
+</html>

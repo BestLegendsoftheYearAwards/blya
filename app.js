@@ -1429,3 +1429,21 @@ initializePublicSite();
   updateCountdown();
   setInterval(updateCountdown, 1000);
 })();
+// Работа меню навигации
+const menuToggle = document.getElementById('menu-toggle');
+const siteMenu = document.getElementById('site-menu');
+
+if (menuToggle && siteMenu) {
+  menuToggle.addEventListener('click', () => {
+    siteMenu.hidden = !siteMenu.hidden;
+  });
+
+  document.addEventListener('click', (event) => {
+    if (
+      !menuToggle.contains(event.target) &&
+      !siteMenu.contains(event.target)
+    ) {
+      siteMenu.hidden = true;
+    }
+  });
+}
