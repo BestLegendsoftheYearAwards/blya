@@ -107,12 +107,8 @@ function updateSitePhase(settings) {
   if (noticePanel) noticePanel.hidden = true;
   if (resultsPanel) resultsPanel.hidden = true;
 
-  if (phase === 'before') {
-    if (noticePanel) noticePanel.hidden = false;
-    if (noticeText) {
-      noticeText.textContent =
-  'Торжественное открытие "B.L.Y.A. 2026" состоится 1 декабря';
-    }
+ if (phase === 'before') {
+    if (noticePanel) noticePanel.hidden = true;
   }
 
   if (phase === 'nominations') {
@@ -1376,27 +1372,23 @@ initializePublicSite();
   const dateElement = document.getElementById('countdown-date');
 
   const stages = [
-    {
-      date: new Date('2026-12-01T00:00:00+05:00'),
-      title: 'До начала приёма номинаций',
-      dateText: '1 декабря 2026'
-    },
-    {
-      date: new Date('2026-12-11T00:00:00+05:00'),
-      title: 'До начала голосования',
-      dateText: '11 декабря 2026'
-    },
-    {
-      date: new Date('2026-12-21T00:00:00+05:00'),
-      title: 'До завершения голосования',
-      dateText: '21 декабря 2026'
-    },
-    {
-      date: new Date('2027-01-01T00:00:00+05:00'),
-      title: 'До публикации результатов',
-      dateText: '1 января 2027'
-    }
-  ];
+  {
+    date: new Date('2026-12-01T00:00:00+05:00'),
+    title: 'Следующий этап: Приём номинаций'
+  },
+  {
+    date: new Date('2026-12-11T00:00:00+05:00'),
+    title: 'Следующий этап: Голосование'
+  },
+  {
+    date: new Date('2026-12-21T00:00:00+05:00'),
+    title: 'Следующий этап: Подведение итогов'
+  },
+  {
+    date: new Date('2027-01-01T00:00:00+05:00'),
+    title: 'Следующий этап: Подведение итогов'
+  }
+];
 
   function updateCountdown() {
     if (siteServerTime === null || siteClientTime === null) {
@@ -1430,8 +1422,8 @@ initializePublicSite();
     minutesElement.textContent = String(minutes).padStart(2, '0');
     secondsElement.textContent = String(seconds).padStart(2, '0');
 
-    stageElement.textContent = nextStage.title;
-    dateElement.textContent = nextStage.dateText;
+    stageElement.textContent = nextStage.title.replace('Следующий этап: ', '');
+    dateElement.textContent = 'До следующего этапа:';
   }
 
   updateCountdown();
