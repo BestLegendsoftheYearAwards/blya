@@ -4,9 +4,175 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Сбывшиеся предсказания</title>
+  <title>Сбывшиеся предсказания B.L.Y.A.</title>
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .predictions-page {
+      max-width: 850px;
+      width: 100%;
+      padding-top: 25px;
+    }
+
+    .predictions-decor {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin: 30px auto 40px;
+    }
+
+    .lucky-emoji {
+      display: inline-block;
+      font-size: clamp(42px, 8vw, 68px);
+      filter: drop-shadow(0 0 12px #75A8FF);
+      animation: luckyFloat 3.5s ease-in-out infinite;
+    }
+
+    .lucky-emoji:nth-child(2) {
+      animation-delay: .5s;
+    }
+
+    .lucky-emoji:nth-child(3) {
+      animation-delay: 1s;
+    }
+
+    .prediction-card {
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 30px auto;
+      padding: 32px 24px;
+      overflow: hidden;
+      border: 1px solid rgba(185, 217, 255, .85);
+      border-radius: 22px;
+      background: linear-gradient(145deg, #FFFFFF, #EAF2FF);
+      box-shadow:
+        0 15px 45px #0007,
+        0 0 25px #438BFF55,
+        inset 0 0 18px #FFFFFF;
+      text-align: center;
+      animation: predictionAppear .8s ease both;
+    }
+
+    .prediction-card:nth-of-type(2) {
+      animation-delay: .2s;
+    }
+
+    .prediction-card h2 {
+      margin: 0 0 22px;
+      color: #193F8F;
+      font-size: clamp(23px, 4vw, 32px);
+      font-weight: bold;
+      text-shadow: 0 0 12px #75A8FF55;
+    }
+
+    .prediction-result {
+      margin: 0;
+      color: #10284C;
+      font-size: clamp(21px, 4vw, 29px);
+      font-weight: 800;
+      line-height: 1.5;
+      text-shadow: 0 1px 5px #75A8FF55;
+    }
+
+    .prediction-heart {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 38px;
+      filter: drop-shadow(0 0 8px #438BFF);
+    }
+
+    .prediction-ornament {
+      margin-top: 22px;
+      color: #438BFF;
+      font-size: 25px;
+      letter-spacing: 12px;
+    }
+
+    .prediction-bottom {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      margin: 35px auto;
+    }
+
+    .prediction-bottom span {
+      font-size: 38px;
+      filter: drop-shadow(0 0 10px #75A8FF);
+      animation: luckyFloat 4s ease-in-out infinite;
+    }
+
+    .prediction-bottom span:nth-child(2) {
+      animation-delay: .7s;
+    }
+
+    .prediction-bottom span:nth-child(3) {
+      animation-delay: 1.4s;
+    }
+
+    .prediction-footer {
+      margin: 35px auto 20px;
+      color: #DCE8F5;
+      font-size: 19px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-align: center;
+      text-shadow: 0 0 12px #438BFF;
+    }
+
+    @keyframes luckyFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+      50% {
+        transform: translateY(-9px) rotate(5deg);
+      }
+    }
+
+    @keyframes predictionAppear {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .prediction-card {
+        padding: 25px 15px;
+        margin: 22px auto;
+      }
+
+      .predictions-decor {
+        gap: 18px;
+      }
+
+      .prediction-bottom {
+        gap: 18px;
+      }
+
+      .prediction-footer {
+        font-size: 15px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lucky-emoji,
+      .prediction-bottom span,
+      .prediction-card {
+        animation: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
 <button class="menu-toggle" id="menu-toggle" aria-label="Открыть меню">
@@ -20,28 +186,53 @@
   <a href="predictions.html">Сбывшиеся предсказания</a>
 </nav>
 
+<main class="shell predictions-page">
 
-<main class="shell">
   <h1>Сбывшиеся предсказания</h1>
 
-  
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 30px; margin: 40px auto; text-align: center;">
-
-    <div class="winner-card" style="width: 100%; max-width: 750px; box-sizing: border-box;">
-      <h2>✨ Предсказание 2024 года ✨</h2>
-      <p style="font-size: 24px; font-weight: bold; margin-top: 20px;">
-        ❤️ СБЫЛОСЬ — Екатерине сделают предложение!
-      </p>
-    </div>
-
-    <div class="winner-card" style="width: 100%; max-width: 750px; box-sizing: border-box;">
-      <h2>✨ Предсказание 2025 года ✨</h2>
-      <p style="font-size: 24px; font-weight: bold; margin-top: 20px;">
-        ❤️ СБЫЛОСЬ — Анастасия получит кухню!
-      </p>
-    </div>
-
+  <div class="predictions-decor">
+    <span class="lucky-emoji">🍀</span>
+    <span class="lucky-emoji">🥠</span>
+    <span class="lucky-emoji">✨</span>
+    <span class="lucky-emoji">🪙</span>
+    <span class="lucky-emoji">🍀</span>
   </div>
+
+  <section class="prediction-card">
+    <h2>✨ Предсказание 2024 года ✨</h2>
+
+    <p class="prediction-result">
+      <span class="prediction-heart">💙</span>
+      СБЫЛОСЬ — Екатерине сделают предложение!
+    </p>
+
+    <div class="prediction-ornament">✧ ✦ ✧</div>
+  </section>
+
+  <section class="prediction-card">
+    <h2>✨ Предсказание 2025 года ✨</h2>
+
+    <p class="prediction-result">
+      <span class="prediction-heart">💙</span>
+      СБЫЛОСЬ — Анастасия получит кухню!
+    </p>
+
+    <div class="prediction-ornament">✧ ✦ ✧</div>
+  </section>
+
+  <div class="prediction-bottom">
+    <span>🍀</span>
+    <span>🥠</span>
+    <span>💙</span>
+    <span>✨</span>
+    <span>🍀</span>
+  </div>
+
+  <p class="prediction-footer">
+    ✨ B.L.Y.A. — удача любит легенд! ✨
+  </p>
+
+</main>
 
 <script>
   const menuToggle = document.getElementById('menu-toggle');
