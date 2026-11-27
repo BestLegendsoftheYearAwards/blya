@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сбывшиеся предсказания</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<button class="menu-toggle" id="menu-toggle" aria-label="Открыть меню">
+  ☰
+</button>
+
+<nav class="site-menu" id="site-menu" hidden>
+  <a href="index.html">Главная</a>
+  <a href="winners-2024.html">Победители 2024 года</a>
+  <a href="winners-2025.html">Победители 2025 года</a>
+  <a href="predictions.html">Сбывшиеся предсказания</a>
+</nav>
+
+
+<main class="shell">
+  <h1>Сбывшиеся предсказания</h1>
+
+  
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 30px; margin: 40px auto; text-align: center;">
+
+    <div class="winner-card" style="width: 100%; max-width: 750px; box-sizing: border-box;">
+      <h2>✨ Предсказание 2024 года ✨</h2>
+      <p style="font-size: 24px; font-weight: bold; margin-top: 20px;">
+        ❤️ СБЫЛОСЬ — Екатерине сделают предложение!
+      </p>
+    </div>
+
+    <div class="winner-card" style="width: 100%; max-width: 750px; box-sizing: border-box;">
+      <h2>✨ Предсказание 2025 года ✨</h2>
+      <p style="font-size: 24px; font-weight: bold; margin-top: 20px;">
+        ❤️ СБЫЛОСЬ — Анастасия получит кухню!
+      </p>
+    </div>
+
+  </div>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const siteMenu = document.getElementById('site-menu');
+
+  menuToggle.addEventListener('click', () => {
+    siteMenu.hidden = !siteMenu.hidden;
+  });
+
+  document.addEventListener('click', (event) => {
+    if (
+      !menuToggle.contains(event.target) &&
+      !siteMenu.contains(event.target)
+    ) {
+      siteMenu.hidden = true;
+    }
+  });
+</script>
+
+</body>
+</html>
